@@ -2,24 +2,66 @@
 
 export const PROVIDERS = [
   {
-    id: 'trinityNJ',
-    name: 'Trinity Solar',
+    id: 'greenPower',
+    name: 'Green Power Energy',
     tier: 1,
     tierLabel: 'Recommended',
+    location: 'Annandale, NJ (~45mi)',
+    google: { rating: 4.7, count: 530 },
+    founded: 2010,
+    highlights: [
+      'SolarReviews 4.8/5 (410 reviews)',
+      'BBB A+ since 2016',
+      '15+ years in business',
+      'Professional sales, no pressure'
+    ],
+    panels: 'Various premium brands',
+    inverters: 'Enphase, SolarEdge',
+    warranty: '25yr panel, strong workmanship',
+    financing: ['Cash', 'Loan', 'PPA', 'Lease'],
+    concerns: ['45+ miles from Bergen County — verify service commitment', 'Some reports of salespeople disappearing post-contract'],
+    website: 'https://www.greenpowerenergy.com'
+  },
+  {
+    id: 'infinityEnergy',
+    name: 'Infinity Energy',
+    tier: 2,
+    tierLabel: 'Consider',
+    location: 'Mahwah, NJ (~15min)',
+    google: { rating: 4.7, count: 623 },
+    founded: 2015,
+    highlights: [
+      'EnergySage "Installer of the Year" Elite+',
+      'Birdeye 4.6/5 (745 reviews)',
+      'Closest to Bergen County',
+      'Excellent review scores across platforms'
+    ],
+    panels: 'Various',
+    inverters: 'Enphase, SolarEdge',
+    warranty: '25yr panel, workmanship varies',
+    financing: ['Cash', 'Loan', 'PPA', 'Lease'],
+    concerns: ['Late 2023 Reddit reports of potential closure/bankruptcy', 'Verify financial stability before signing', 'BBB accredited only since 2022'],
+    website: 'https://thenewutility.com'
+  },
+  {
+    id: 'trinityNJ',
+    name: 'Trinity Solar',
+    tier: 2,
+    tierLabel: 'Consider',
     location: 'Wall Township, NJ (~65mi)',
-    google: { rating: 4.2, count: 3500 },
+    google: { rating: 3.63, count: 167 },
     founded: 1994,
     highlights: [
       'Largest NJ installer — 30+ years',
-      'In-house installation crews',
-      'Strong PPA/lease offerings',
-      'BBB A+ rated'
+      'BBB A+ (responds to complaints)',
+      'Installation crews often praised',
+      'Strong PPA/lease offerings'
     ],
     panels: 'REC, Canadian Solar',
     inverters: 'Enphase IQ8',
     warranty: '25yr performance, 10yr workmanship',
     financing: ['PPA', 'Lease', 'Loan', 'Cash'],
-    concerns: ['Some inconsistent post-install service reports', 'High-volume may mean less personalized attention'],
+    concerns: ['Yelp 1.6/5 (136 reviews)', 'Aggressive door-to-door sales', '211 BBB complaints in 3 years', 'Financing partner bankruptcy concerns', 'Roof damage reports'],
     website: 'https://www.trinitysolar.com'
   },
   {
