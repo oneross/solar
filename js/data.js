@@ -168,7 +168,8 @@ export const DEFAULTS = {
   loanTerm: 20,           // years
   ppaRate: 0.15,          // $/kWh
   ppaEscalator: 1.99,     // %/yr
-  leaseMonthly: 120,      // $/month
+  leaseMonthly: 68,       // $/month (Trinity via financial partners)
+  gridFee: 8,             // $/month (PSE&G grid connection fee)
   leaseEscalator: 2.9,    // %/yr
   srecRate: 85,           // $/MWh
   srecTerm: 15,           // years
@@ -191,8 +192,9 @@ export const SLIDER_RANGES = {
   loanTerm:         { min: 10,    max: 25,    step: 1,     unit: 'yr' },
   ppaRate:          { min: 0.08,  max: 0.25,  step: 0.01,  unit: '$/kWh' },
   ppaEscalator:     { min: 0,     max: 5,     step: 0.1,   unit: '%/yr' },
-  leaseMonthly:     { min: 50,    max: 300,   step: 10,    unit: '$/mo' },
+  leaseMonthly:     { min: 40,    max: 300,   step: 1,     unit: '$/mo' },
   leaseEscalator:   { min: 0,     max: 5,     step: 0.1,   unit: '%/yr' },
+  gridFee:          { min: 0,     max: 20,    step: 1,     unit: '$/mo' },
   srecRate:         { min: 50,    max: 120,   step: 0.5,   unit: '$/MWh' },
   degradation:      { min: 0.25,  max: 1.0,   step: 0.05,  unit: '%/yr' },
   analysisPeriod:   { min: 15,    max: 30,    step: 1,     unit: 'yr' },
@@ -212,7 +214,7 @@ export const PRESETS = {
       loanAPR: 8.5,
       ppaRate: 0.18,
       ppaEscalator: 2.9,
-      leaseMonthly: 160,
+      leaseMonthly: 90,
       srecRate: 76.50,
       degradation: 0.7,
     }
@@ -228,7 +230,7 @@ export const PRESETS = {
       loanAPR: 7.0,
       ppaRate: 0.15,
       ppaEscalator: 1.99,
-      leaseMonthly: 120,
+      leaseMonthly: 68,
       srecRate: 85,
       degradation: 0.5,
     }
@@ -244,7 +246,7 @@ export const PRESETS = {
       loanAPR: 5.5,
       ppaRate: 0.12,
       ppaEscalator: 0.99,
-      leaseMonthly: 90,
+      leaseMonthly: 55,
       srecRate: 85,
       degradation: 0.4,
     }
@@ -376,7 +378,7 @@ export const INDUSTRY_CONTEXT = [
   { company: 'Mosaic (lender)', event: 'Chapter 11 bankruptcy', date: 'June 2025' },
 ];
 
-export const CHART_COLORS = {
+const CHART_COLORS_DARK = {
   cash: '#22c55e',      // green-500
   loan: '#3b82f6',      // blue-500
   ppa: '#f59e0b',       // amber-500
@@ -386,3 +388,21 @@ export const CHART_COLORS = {
   text: '#94a3b8',      // slate-400
   tooltipBg: '#1e293b', // slate-800
 };
+
+const CHART_COLORS_LIGHT = {
+  cash: '#16a34a',      // green-600
+  loan: '#2563eb',      // blue-600
+  ppa: '#d97706',       // amber-600
+  lease: '#9333ea',     // purple-600
+  doNothing: '#dc2626', // red-600
+  grid: '#e2e8f0',      // slate-200
+  text: '#475569',      // slate-600
+  tooltipBg: '#ffffff', // white
+};
+
+export const CHART_COLORS = { ...CHART_COLORS_DARK };
+
+export function setChartTheme(mode) {
+  const palette = mode === 'light' ? CHART_COLORS_LIGHT : CHART_COLORS_DARK;
+  Object.assign(CHART_COLORS, palette);
+}

@@ -1,6 +1,6 @@
 // app.js — State management, DOM bindings, interactivity
 
-import { PROVIDERS, DEFAULTS, SLIDER_RANGES, PRESETS, QUESTIONS, RED_FLAGS } from './data.js';
+import { PROVIDERS, DEFAULTS, SLIDER_RANGES, PRESETS, QUESTIONS, RED_FLAGS, setChartTheme } from './data.js';
 import { calculateAllScenarios, breakEvenYear, homeSaleImpact, fmt, fmtNum } from './calculator.js';
 import { createCharts, updateCharts, updateHomeSaleChart } from './charts.js';
 
@@ -12,6 +12,7 @@ let checklistState = JSON.parse(localStorage.getItem('solar-checklist') || '{}')
 
 // ─── Init ─────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initSliders();
   renderProviders();
   renderChecklist();
@@ -24,7 +25,82 @@ document.addEventListener('DOMContentLoaded', () => {
   initScenarioSlots();
   initHomeSaleSlider();
   restoreSavedScenarios();
+  initPdfExport();
 });
+
+// ─── Theme Toggle ────────────────────────────────────────────────
+function initThemeToggle() {
+  const btn = document.getElementById('theme-toggle');
+  const moonIcon = btn.querySelector('.theme-icon-moon');
+  const sunIcon = btn.querySelector('.theme-icon-sun');
+  const isLight = document.body.classList.contains('light');
+
+  // Sync icon state on load — light mode is the default
+  if (isLight) {
+    moonIcon.classList.add('hidden');
+    sunIcon.classList.remove('hidden');
+    setChartTheme('light');
+  } else {
+    setChartTheme('dark');
+  }
+
+  btn.addEventListener('click', () => {
+    const goLight = !document.body.classList.contains('light');
+    document.body.classList.toggle('light', goLight);
+    moonIcon.classList.toggle('hidden', goLight);
+    sunIcon.classList.toggle('hidden', !goLight);
+    localStorage.setItem('solar-theme', goLight ? 'light' : 'dark');
+    setChartTheme(goLight ? 'light' : 'dark');
+    createCharts();
+    recalculate();
+  });
+}
+
+// ─── PDF Export ──────────────────────────────────────────────────
+function initPdfExport() {
+  document.getElementById('pdf-export').addEventListener('click', () => {
+    const wasLight = document.body.classList.contains('light');
+
+    // Force light mode for clean print
+    if (!wasLight) {
+      document.body.classList.add('light');
+      setChartTheme('light');
+      createCharts();
+      recalculate();
+    }
+
+    // Expand all provider details
+    const details = document.querySelectorAll('.provider-details');
+    details.forEach(d => d.classList.add('open'));
+
+    // Expand all checklist categories
+    const hiddenCategories = document.querySelectorAll('#checklist-container .hidden');
+    hiddenCategories.forEach(el => el.classList.remove('hidden'));
+    // Mark them so we can restore
+    hiddenCategories.forEach(el => el.dataset.wasHidden = 'true');
+
+    // Let DOM settle, then print
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.print();
+
+        // Restore after print
+        details.forEach(d => d.classList.remove('open'));
+        document.querySelectorAll('#checklist-container [data-was-hidden="true"]').forEach(el => {
+          el.classList.add('hidden');
+          delete el.dataset.wasHidden;
+        });
+
+        if (!wasLight) {
+          document.body.classList.remove('light');
+          setChartTheme('dark');
+          createCharts();
+          recalculate();
+        }
+      });
+    });
+  });
+}
 
 // ─── Slider ↔ Input Binding ──────────────────────────────────────
 function initSliders() {

@@ -154,6 +154,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .info-tooltip {
   position: relative;
   cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
 }
 .info-tooltip::after {
   content: attr(data-tip);
@@ -196,12 +198,221 @@ input[type="number"]::-webkit-outer-spin-button {
   border-top-width: 1px;
 }
 
-/* Print styles */
+/* ─── LIGHT MODE ─────────────────────────────────────────────── */
+
+/* Backgrounds */
+.light.bg-slate-900 { background-color: #f8fafc !important; }
+.light .bg-slate-900\/90 { background-color: rgba(248, 250, 252, 0.9) !important; }
+.light .bg-slate-800 { background-color: #ffffff !important; }
+.light .bg-slate-800\/30 { background-color: rgba(241, 245, 249, 0.5) !important; }
+.light .bg-slate-800\/50 { background-color: rgba(241, 245, 249, 0.7) !important; }
+.light .bg-slate-700 { background-color: #e2e8f0 !important; }
+.light .bg-slate-700\/50 { background-color: rgba(226, 232, 240, 0.5) !important; }
+
+/* Text */
+.light.text-slate-200 { color: #1e293b !important; }
+.light .text-white { color: #0f172a !important; }
+.light .text-slate-200 { color: #1e293b !important; }
+.light .text-slate-300 { color: #334155 !important; }
+.light .text-slate-400 { color: #64748b !important; }
+.light .text-slate-500 { color: #94a3b8 !important; }
+
+/* Borders */
+.light .border-slate-700 { border-color: #e2e8f0 !important; }
+.light .border-slate-800 { border-color: #f1f5f9 !important; }
+.light .border-slate-600 { border-color: #cbd5e1 !important; }
+.light .border-green-800 { border-color: #86efac !important; }
+.light .border-purple-800 { border-color: #c4b5fd !important; }
+.light .border-red-800 { border-color: #fca5a5 !important; }
+
+/* Urgency banner */
+.light .bg-red-900\/40 { background-color: rgba(254, 226, 226, 0.6) !important; }
+.light .border-red-700 { border-color: #fca5a5 !important; }
+.light .text-red-300 { color: #dc2626 !important; }
+
+/* Industry context badges */
+.light .bg-red-900\/30 { background-color: rgba(254, 226, 226, 0.6) !important; }
+.light .text-red-400 { color: #dc2626 !important; }
+
+/* Tier badges — dark text on light bg */
+.light .tier-1 { background: #bbf7d0; color: #166534; }
+.light .tier-2 { background: #fef08a; color: #854d0e; }
+.light .tier-3 { background: #bfdbfe; color: #1e3a5f; }
+.light .tier-4 { background: #fecaca; color: #991b1b; }
+
+/* Severity badges */
+.light .severity-high { background: #fecaca; color: #991b1b; }
+.light .severity-medium { background: #fef08a; color: #854d0e; }
+.light .severity-low { background: #bfdbfe; color: #1e3a5f; }
+
+/* Slider */
+.light input[type="range"] { background: #cbd5e1; }
+.light input[type="range"]::-webkit-slider-thumb { border-color: #f8fafc; }
+.light input[type="range"]::-moz-range-thumb { border-color: #f8fafc; }
+
+/* Number inputs */
+.light input[type="number"] {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Nav */
+.light .nav-link { color: #64748b; }
+.light .nav-link:hover { color: #0f172a; }
+.light .nav-link.active { color: #0f172a !important; }
+
+/* Tooltips */
+.light .info-tooltip::after {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #e2e8f0;
+}
+
+/* Provider card hover */
+.light .provider-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Scenario slots */
+.light .scenario-slot { border-color: #cbd5e1; }
+.light .scenario-slot.filled { border-color: #f59e0b; }
+
+/* Provider filter buttons */
+.light .bg-solar-500 { background-color: #f59e0b !important; }
+.light .bg-solar-500\/20 { background-color: rgba(245, 158, 11, 0.15) !important; }
+
+/* Checklist progress bar track */
+.light .bg-slate-700.rounded-full { background-color: #e2e8f0 !important; }
+
+/* Provider details panel */
+.light .provider-details { background-color: rgba(248, 250, 252, 0.7) !important; }
+
+/* Footer */
+.light .border-t.border-slate-800 { border-color: #e2e8f0 !important; }
+
+/* Decision matrix */
+.light .border-b.border-slate-700 { border-color: #e2e8f0 !important; }
+.light .border-b.border-slate-800 { border-color: #f1f5f9 !important; }
+.light .border-t.border-slate-700 { border-color: #e2e8f0 !important; }
+
+/* Theme toggle + export buttons */
+#theme-toggle,
+#pdf-export {
+  transition: color 0.15s ease;
+}
+
+/* ─── PRINT STYLES ───────────────────────────────────────────── */
 @media print {
-  body { background: white !important; color: black !important; }
-  .no-print, nav, #scroll-progress, .preset-btn, button { display: none !important; }
-  .provider-card, .card { break-inside: avoid; border: 1px solid #ccc !important; }
-  .chart-container { break-inside: avoid; }
+  /* Force light theme */
+  body {
+    background: #ffffff !important;
+    color: #1e293b !important;
+    font-size: 11pt !important;
+  }
+
+  /* Hide interactive elements */
+  nav,
+  #scroll-progress,
+  .preset-btn,
+  #provider-filters,
+  #save-scenario,
+  #theme-toggle,
+  #pdf-export,
+  input[type="range"],
+  .no-print,
+  .urgency-banner {
+    display: none !important;
+  }
+
+  /* Reset backgrounds */
+  .bg-slate-900, .bg-slate-800, .bg-slate-800\/30, .bg-slate-800\/50,
+  .bg-slate-700, .bg-slate-700\/50 {
+    background: #ffffff !important;
+  }
+
+  /* Text colors for readability */
+  .text-white, .text-slate-200 { color: #0f172a !important; }
+  .text-slate-300 { color: #334155 !important; }
+  .text-slate-400, .text-slate-500 { color: #64748b !important; }
+
+  /* Colored text stays colored */
+  .text-green-400 { color: #16a34a !important; }
+  .text-blue-400 { color: #2563eb !important; }
+  .text-amber-400, .text-solar-500 { color: #d97706 !important; }
+  .text-purple-400 { color: #9333ea !important; }
+  .text-red-400 { color: #dc2626 !important; }
+
+  /* Borders */
+  .border-slate-700, .border-slate-800, .border-slate-600 {
+    border-color: #e2e8f0 !important;
+  }
+  .border-green-800 { border-color: #86efac !important; }
+  .border-purple-800 { border-color: #c4b5fd !important; }
+  .border-red-800 { border-color: #fca5a5 !important; }
+
+  /* Tier badges for print */
+  .tier-1 { background: #dcfce7 !important; color: #166534 !important; }
+  .tier-2 { background: #fef9c3 !important; color: #854d0e !important; }
+  .tier-3 { background: #dbeafe !important; color: #1e3a5f !important; }
+  .tier-4 { background: #fee2e2 !important; color: #991b1b !important; }
+
+  /* Severity badges for print */
+  .severity-high { background: #fee2e2 !important; color: #991b1b !important; }
+  .severity-medium { background: #fef9c3 !important; color: #854d0e !important; }
+  .severity-low { background: #dbeafe !important; color: #1e3a5f !important; }
+
+  /* Disable animations */
   .reveal { opacity: 1 !important; transform: none !important; }
-  * { color: black !important; background: white !important; }
+
+  /* Cards and layout */
+  .provider-card, .card {
+    break-inside: avoid;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Charts */
+  .chart-container {
+    break-inside: avoid;
+    max-height: 300px !important;
+  }
+
+  /* Provider details — force open for print */
+  .provider-details {
+    max-height: none !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    border-top-width: 1px !important;
+    overflow: visible !important;
+  }
+  .provider-details button { display: none !important; }
+
+  /* Checklist categories — force open */
+  #checklist-container .hidden { display: block !important; }
+
+  /* Page breaks */
+  #providers { page-break-before: always; }
+  #calculator { page-break-before: always; }
+  #scenarios { page-break-before: always; }
+  #checklist { page-break-before: always; }
+
+  /* Reduce padding for print */
+  section { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+  main { padding-top: 0 !important; }
+
+  /* Tooltip — hide */
+  .info-tooltip::after { display: none !important; }
+
+  /* Number inputs — show as text */
+  input[type="number"] {
+    border: none !important;
+    background: transparent !important;
+    color: #0f172a !important;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    display: none !important;
+  }
 }

@@ -24,6 +24,10 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="bg-slate-900 text-slate-200 font-sans antialiased">
+  <script>
+    // Apply light mode by default, only go dark if explicitly set
+    if (localStorage.getItem('solar-theme') !== 'dark') document.body.classList.add('light');
+  </script>
   <div id="scroll-progress" style="width: 0%"></div>
 
   <!-- Navigation -->
@@ -42,6 +46,23 @@
         <a href="#checklist" class="nav-link px-2 py-1 text-slate-400 hover:text-white whitespace-nowrap">Checklist</a>
         <a href="#redflags" class="nav-link px-2 py-1 text-slate-400 hover:text-white whitespace-nowrap">Red Flags</a>
       </div>
+      <div class="flex items-center gap-2 ml-3">
+        <button id="theme-toggle" class="p-1.5 text-slate-400 hover:text-white transition-colors" title="Toggle light/dark mode">
+          <!-- Moon icon (shown in dark mode) -->
+          <svg class="w-4 h-4 theme-icon-moon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+          </svg>
+          <!-- Sun icon (shown in light mode) -->
+          <svg class="w-4 h-4 theme-icon-sun hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+          </svg>
+        </button>
+        <button id="pdf-export" class="p-1.5 text-slate-400 hover:text-white transition-colors" title="Export as PDF">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -53,7 +74,7 @@
         <!-- Urgency Banner -->
         <div class="urgency-banner bg-red-900/40 border border-red-700 rounded-lg p-4 mb-8 text-center">
           <p class="text-red-300 font-semibold text-sm sm:text-base">
-            &#9888; SREC-II drops from $85 → $76.50/MWh on <strong>March 13, 2026</strong> — systems must be registered before then to lock in the higher rate for 15 years.
+            &#9888; <span class="info-tooltip" data-tip="Solar Renewable Energy Certificate — NJ pays you per MWh produced for 15 years">SREC-II</span> drops from $85 → $76.50/MWh on <strong>March 13, 2026</strong> — systems must be registered before then to lock in the higher rate for 15 years.
           </p>
         </div>
 
@@ -63,18 +84,18 @@
         </h1>
         <p class="text-lg sm:text-xl text-slate-400 mb-8 max-w-3xl">
           Interactive financial comparison for residential solar in <strong class="text-white">Hawthorne & Ramsey, NJ</strong>.
-          Compare providers, financing models, and long-term costs — no ITC, NJ incentives only.
+          Compare providers, financing models, and long-term costs — no <span class="info-tooltip" data-tip="Investment Tax Credit — federal 30% solar credit, eliminated for residential Jan 2026">ITC</span>, NJ incentives only.
         </p>
 
         <!-- Key Facts Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
-            <div class="text-xs text-slate-500 uppercase tracking-wide mb-1">Federal ITC</div>
+            <div class="text-xs text-slate-500 uppercase tracking-wide mb-1">Federal <span class="info-tooltip" data-tip="Investment Tax Credit — federal 30% solar credit, eliminated for residential Jan 2026">ITC</span></div>
             <div class="text-lg font-bold text-red-400">Eliminated</div>
-            <div class="text-xs text-slate-500">Jan 1, 2026 (OBBB)</div>
+            <div class="text-xs text-slate-500">Jan 1, 2026 (<span class="info-tooltip" data-tip="One Big Beautiful Bill Act — federal legislation that ended the residential solar tax credit">OBBB</span>)</div>
           </div>
           <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
-            <div class="text-xs text-slate-500 uppercase tracking-wide mb-1">NJ SREC-II</div>
+            <div class="text-xs text-slate-500 uppercase tracking-wide mb-1">NJ <span class="info-tooltip" data-tip="Solar Renewable Energy Certificate — NJ pays you per MWh produced for 15 years">SREC-II</span></div>
             <div class="text-lg font-bold text-green-400">$85/MWh</div>
             <div class="text-xs text-slate-500">15yr, drops Mar 2026</div>
           </div>
@@ -94,10 +115,10 @@
         <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
           <h3 class="text-sm font-semibold text-slate-400 mb-2">&#9888; Industry Context — Recent Bankruptcies</h3>
           <div class="flex flex-wrap gap-3 text-xs">
-            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full">SunPower Ch.11 (Aug 2024)</span>
-            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full">Sunnova Ch.11 (Jun 2025)</span>
-            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full">PosiGen Ch.11 (Nov 2025)</span>
-            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full">Mosaic Ch.11 (Jun 2025)</span>
+            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full info-tooltip" data-tip="Leading premium panel manufacturer — warranties and service agreements at risk for existing customers">SunPower Ch.11 (Aug 2024)</span>
+            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full info-tooltip" data-tip="Major residential solar financing company — lease/PPA customers face uncertain service and warranty coverage">Sunnova Ch.11 (Jun 2025)</span>
+            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full info-tooltip" data-tip="Low-income focused solar installer — customers on lease/PPA agreements face service uncertainty">PosiGen Ch.11 (Nov 2025)</span>
+            <span class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full info-tooltip" data-tip="Major solar loan provider — existing loan terms unaffected but new lending halted">Mosaic Ch.11 (Jun 2025)</span>
           </div>
           <p class="text-xs text-slate-500 mt-2">Choose financially stable providers. Warranty and service obligations die with the company.</p>
         </div>
@@ -165,7 +186,7 @@
                 <!-- Cost/Watt -->
                 <div class="input-group" data-key="costPerWatt">
                   <div class="flex justify-between items-center mb-1">
-                    <label class="text-sm text-slate-300">Cost per Watt</label>
+                    <label class="text-sm text-slate-300"><span class="info-tooltip" data-tip="Dollars per watt — standard way to compare solar system costs before incentives">Cost per Watt</span></label>
                     <div class="flex items-center gap-1">
                       <input type="number" class="w-16 bg-slate-700 text-right text-sm rounded px-2 py-1 text-white border border-slate-600 focus:border-solar-500 focus:outline-none">
                       <span class="text-xs text-slate-500">$/W</span>
@@ -187,7 +208,7 @@
                 <!-- Degradation -->
                 <div class="input-group" data-key="degradation">
                   <div class="flex justify-between items-center mb-1">
-                    <label class="text-sm text-slate-300">Degradation</label>
+                    <label class="text-sm text-slate-300"><span class="info-tooltip" data-tip="Panels produce slightly less electricity each year as cells age">Degradation</span></label>
                     <div class="flex items-center gap-1">
                       <input type="number" class="w-16 bg-slate-700 text-right text-sm rounded px-2 py-1 text-white border border-slate-600 focus:border-solar-500 focus:outline-none">
                       <span class="text-xs text-slate-500">%/yr</span>
@@ -200,7 +221,7 @@
 
             <!-- Utility -->
             <div class="bg-slate-800 rounded-lg p-5 border border-slate-700">
-              <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">Utility (PSE&G)</h3>
+              <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">Utility (<span class="info-tooltip" data-tip="Public Service Electric & Gas — NJ's largest utility, serving Bergen County">PSE&G</span>)</h3>
               <div class="space-y-4" id="inputs-utility">
                 <div class="input-group" data-key="electricityRate">
                   <div class="flex justify-between items-center mb-1">
@@ -224,10 +245,20 @@
                 </div>
                 <div class="input-group" data-key="srecRate">
                   <div class="flex justify-between items-center mb-1">
-                    <label class="text-sm text-slate-300">SREC-II Rate</label>
+                    <label class="text-sm text-slate-300"><span class="info-tooltip" data-tip="Solar Renewable Energy Certificate — NJ pays you per MWh produced for 15 years">SREC-II</span> Rate</label>
                     <div class="flex items-center gap-1">
                       <input type="number" class="w-16 bg-slate-700 text-right text-sm rounded px-2 py-1 text-white border border-slate-600 focus:border-solar-500 focus:outline-none">
                       <span class="text-xs text-slate-500">$/MWh</span>
+                    </div>
+                  </div>
+                  <input type="range">
+                </div>
+                <div class="input-group" data-key="gridFee">
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="text-sm text-slate-300"><span class="info-tooltip" data-tip="Fixed monthly charge from PSE&G to stay connected to the grid, regardless of solar production">Grid Connection Fee</span></label>
+                    <div class="flex items-center gap-1">
+                      <input type="number" class="w-16 bg-slate-700 text-right text-sm rounded px-2 py-1 text-white border border-slate-600 focus:border-solar-500 focus:outline-none">
+                      <span class="text-xs text-slate-500">$/mo</span>
                     </div>
                   </div>
                   <input type="range">
@@ -261,7 +292,7 @@
                 </div>
                 <div class="input-group" data-key="ppaRate">
                   <div class="flex justify-between items-center mb-1">
-                    <label class="text-sm text-slate-300">PPA Rate</label>
+                    <label class="text-sm text-slate-300"><span class="info-tooltip" data-tip="Power Purchase Agreement — you buy electricity at a set rate; the company owns the system">PPA</span> Rate</label>
                     <div class="flex items-center gap-1">
                       <input type="number" class="w-16 bg-slate-700 text-right text-sm rounded px-2 py-1 text-white border border-slate-600 focus:border-solar-500 focus:outline-none">
                       <span class="text-xs text-slate-500">$/kWh</span>
@@ -271,7 +302,7 @@
                 </div>
                 <div class="input-group" data-key="ppaEscalator">
                   <div class="flex justify-between items-center mb-1">
-                    <label class="text-sm text-slate-300">PPA Escalator</label>
+                    <label class="text-sm text-slate-300"><span class="info-tooltip" data-tip="Power Purchase Agreement — you buy electricity at a set rate; the company owns the system">PPA</span> <span class="info-tooltip" data-tip="Annual % increase applied to the payment rate each year">Escalator</span></label>
                     <div class="flex items-center gap-1">
                       <input type="number" class="w-16 bg-slate-700 text-right text-sm rounded px-2 py-1 text-white border border-slate-600 focus:border-solar-500 focus:outline-none">
                       <span class="text-xs text-slate-500">%/yr</span>
@@ -291,7 +322,7 @@
                 </div>
                 <div class="input-group" data-key="leaseEscalator">
                   <div class="flex justify-between items-center mb-1">
-                    <label class="text-sm text-slate-300">Lease Escalator</label>
+                    <label class="text-sm text-slate-300">Lease <span class="info-tooltip" data-tip="Annual % increase applied to the payment rate each year">Escalator</span></label>
                     <div class="flex items-center gap-1">
                       <input type="number" class="w-16 bg-slate-700 text-right text-sm rounded px-2 py-1 text-white border border-slate-600 focus:border-solar-500 focus:outline-none">
                       <span class="text-xs text-slate-500">%/yr</span>
@@ -335,7 +366,7 @@
                 <div class="text-xs text-slate-500" id="sum-loan-be">--</div>
               </div>
               <div class="bg-slate-800 rounded-lg p-3 border border-slate-700 text-center" data-scenario="ppa">
-                <div class="text-xs text-slate-500 mb-1">PPA</div>
+                <div class="text-xs text-slate-500 mb-1"><span class="info-tooltip" data-tip="Power Purchase Agreement — you buy electricity at a set rate; the company owns the system">PPA</span></div>
                 <div class="text-lg font-bold text-amber-400" id="sum-ppa">--</div>
                 <div class="text-xs text-slate-500" id="sum-ppa-be">--</div>
               </div>
@@ -385,7 +416,7 @@
 
             <!-- Chart 5: NPV -->
             <div class="bg-slate-800 rounded-lg p-5 border border-slate-700 reveal">
-              <h3 class="text-sm font-semibold text-slate-400 mb-3">Net Present Value (5% discount rate)</h3>
+              <h3 class="text-sm font-semibold text-slate-400 mb-3"><span class="info-tooltip" data-tip="Net Present Value — total cost in today's dollars, accounting for the time value of money">Net Present Value</span> (5% discount rate)</h3>
               <div class="chart-container" style="height: 200px;">
                 <canvas id="chart-npv"></canvas>
               </div>

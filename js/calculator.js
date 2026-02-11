@@ -95,9 +95,9 @@ function calculateCashScenario(p, systemCost, years) {
     const utilSaved = prod * p.electricityRate * Math.pow(1 + p.rateEscalation / 100, y);
     const srec = srecIncome(prod, p.srecRate, y, p.srecTerm);
 
-    // Remaining utility cost if system doesn't cover 100%
+    // Remaining utility cost — grid fee is the floor (you always pay it with solar)
     const totalUtil = utilityCost(p.annualConsumption, p.electricityRate, p.rateEscalation, y);
-    const netUtilCost = Math.max(0, totalUtil - utilSaved);
+    const netUtilCost = Math.max(p.gridFee * 12, totalUtil - utilSaved);
 
     const annualNet = y === 0 ? systemCost + netUtilCost - srec : netUtilCost - srec;
 
@@ -134,7 +134,7 @@ function calculateLoanScenario(p, systemCost, years) {
     const utilSaved = prod * p.electricityRate * Math.pow(1 + p.rateEscalation / 100, y);
     const srec = srecIncome(prod, p.srecRate, y, p.srecTerm);
     const totalUtil = utilityCost(p.annualConsumption, p.electricityRate, p.rateEscalation, y);
-    const netUtilCost = Math.max(0, totalUtil - utilSaved);
+    const netUtilCost = Math.max(p.gridFee * 12, totalUtil - utilSaved);
 
     const loanCost = y < p.loanTerm ? annualPayment : 0;
     const annualNet = loanCost + netUtilCost - srec;
@@ -167,10 +167,10 @@ function calculatePPAScenario(p, years) {
     const ppaRateYear = p.ppaRate * Math.pow(1 + p.ppaEscalator / 100, y);
     const ppaCost = prod * ppaRateYear;
 
-    // Remaining utility for uncovered consumption
+    // Remaining utility for uncovered consumption — grid fee is the floor
     const totalUtil = utilityCost(p.annualConsumption, p.electricityRate, p.rateEscalation, y);
     const utilSaved = prod * p.electricityRate * Math.pow(1 + p.rateEscalation / 100, y);
-    const netUtilCost = Math.max(0, totalUtil - utilSaved);
+    const netUtilCost = Math.max(p.gridFee * 12, totalUtil - utilSaved);
 
     const annualNet = ppaCost + netUtilCost; // No SREC for homeowner in PPA
     cumulative += annualNet;
@@ -203,7 +203,7 @@ function calculateLeaseScenario(p, years) {
 
     const totalUtil = utilityCost(p.annualConsumption, p.electricityRate, p.rateEscalation, y);
     const utilSaved = prod * p.electricityRate * Math.pow(1 + p.rateEscalation / 100, y);
-    const netUtilCost = Math.max(0, totalUtil - utilSaved);
+    const netUtilCost = Math.max(p.gridFee * 12, totalUtil - utilSaved);
 
     const annualNet = leaseAnnual + netUtilCost;
     cumulative += annualNet;
