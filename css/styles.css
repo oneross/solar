@@ -1,0 +1,207 @@
+/* styles.css — Custom animations, print styles, slider styling */
+
+/* Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f59e0b, #3b82f6);
+  z-index: 100;
+  transition: width 50ms linear;
+}
+
+/* Smooth reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #334155;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f59e0b;
+  border: 2px solid #0f172a;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f59e0b;
+  border: 2px solid #0f172a;
+  cursor: pointer;
+}
+
+/* Number input inline styling */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+/* Provider card hover */
+.provider-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.provider-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Tier badges */
+.tier-1 { background: #166534; color: #bbf7d0; }
+.tier-2 { background: #854d0e; color: #fef08a; }
+.tier-3 { background: #1e3a5f; color: #93c5fd; }
+.tier-4 { background: #7f1d1d; color: #fecaca; }
+
+/* Severity badges */
+.severity-high { background: #7f1d1d; color: #fecaca; }
+.severity-medium { background: #854d0e; color: #fef08a; }
+.severity-low { background: #1e3a5f; color: #bfdbfe; }
+
+/* Checklist items */
+.checklist-item {
+  transition: opacity 0.2s ease;
+}
+.checklist-item.checked {
+  opacity: 0.5;
+}
+.checklist-item.checked label {
+  text-decoration: line-through;
+}
+
+/* Preset buttons */
+.preset-btn {
+  transition: all 0.15s ease;
+}
+.preset-btn:hover {
+  transform: translateY(-1px);
+}
+.preset-btn.active {
+  ring: 2px;
+}
+
+/* Scenario save slots */
+.scenario-slot {
+  transition: all 0.2s ease;
+  border: 2px dashed #475569;
+}
+.scenario-slot.filled {
+  border: 2px solid #f59e0b;
+}
+
+/* Sticky nav */
+.nav-link {
+  transition: color 0.15s ease;
+  position: relative;
+}
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #f59e0b;
+}
+
+/* Urgency banner pulse */
+@keyframes urgency-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+.urgency-banner {
+  animation: urgency-pulse 2s ease-in-out infinite;
+}
+
+/* Chart container responsive */
+.chart-container {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+}
+.chart-container canvas {
+  width: 100% !important;
+}
+
+/* Tooltip custom */
+.info-tooltip {
+  position: relative;
+  cursor: help;
+}
+.info-tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  white-space: normal;
+  width: max-content;
+  max-width: 250px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 50;
+  border: 1px solid #334155;
+}
+.info-tooltip:hover::after {
+  opacity: 1;
+}
+
+/* Expandable provider details */
+.provider-details {
+  max-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-top-width: 0;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+.provider-details.open {
+  max-height: 600px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top-width: 1px;
+}
+
+/* Print styles */
+@media print {
+  body { background: white !important; color: black !important; }
+  .no-print, nav, #scroll-progress, .preset-btn, button { display: none !important; }
+  .provider-card, .card { break-inside: avoid; border: 1px solid #ccc !important; }
+  .chart-container { break-inside: avoid; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  * { color: black !important; background: white !important; }
+}
