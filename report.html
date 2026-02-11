@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Provider Research Report — Bergen County 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            solar: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    @media print {
+      body { font-size: 11pt !important; }
+      .no-print { display: none !important; }
+      .print-break { page-break-before: always; }
+      .print-avoid { break-inside: avoid; }
+      section { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+      .chart-wrap { max-height: 320px !important; break-inside: avoid; }
+    }
+
+    /* Subtle check animation */
+    .check-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .check-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <!-- Top bar -->
+  <div class="no-print sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between h-12">
+      <a href="index.html" class="text-sm text-slate-500 hover:text-slate-800 flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+        Back to Calculator
+      </a>
+      <button onclick="window.print()" class="px-3 py-1.5 text-xs font-medium rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18.75 12h.008v.008h-.008V12zm-1.5 0h.008v.008H17.25V12z"/></svg>
+        Save as PDF
+      </button>
+    </div>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+
+    <!-- Header -->
+    <header class="mb-12">
+      <p class="text-xs font-medium text-solar-600 uppercase tracking-wide mb-2">Research Report</p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3 leading-tight">Home Solar Provider Research</h1>
+      <p class="text-lg text-slate-500 mb-6">Hawthorne & Ramsey, NJ (Bergen County) &mdash; February 10, 2026</p>
+
+      <!-- Executive Summary -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Executive Summary</h2>
+        <p class="text-slate-700 leading-relaxed mb-4">
+          Comprehensive analysis of residential solar options for Northern New Jersey. Evaluates three providers (Trinity Solar, Infinity Energy, Green Power Energy), NJ-specific incentives, ownership models, and home sale implications under the 2026 regulatory environment.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="bg-red-50 rounded-lg p-3 border border-red-100">
+            <div class="text-xs font-medium text-red-600 mb-1">Federal ITC</div>
+            <div class="text-sm font-bold text-red-700">Eliminated Jan 2026</div>
+            <div class="text-xs text-red-500">Only via PPA/lease now</div>
+          </div>
+          <div class="bg-green-50 rounded-lg p-3 border border-green-100">
+            <div class="text-xs font-medium text-green-600 mb-1">SREC-II</div>
+            <div class="text-sm font-bold text-green-700">$85/MWh &times; 15 yrs</div>
+            <div class="text-xs text-green-500">Drops to $76.50 Mar 13</div>
+          </div>
+          <div class="bg-amber-50 rounded-lg p-3 border border-amber-100">
+            <div class="text-xs font-medium text-amber-600 mb-1">Top Pick</div>
+            <div class="text-sm font-bold text-amber-700">Green Power Energy</div>
+            <div class="text-xs text-amber-500">Strongest reputation</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section: Ownership Models -->
+    <section class="mb-14">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Ownership Models</h2>
+      <p class="text-sm text-slate-500 mb-5">The 2026 ITC elimination fundamentally changes the buy vs. lease calculation.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-left">
+              <th class="py-3 px-4 font-semibold text-slate-600 rounded-tl-lg">Model</th>
+              <th class="py-3 px-3 font-semibold text-slate-600">Upfront</th>
+              <th class="py-3 px-3 font-semibold text-slate-600">Monthly</th>
+              <th class="py-3 px-3 font-semibold text-slate-600">Ownership</th>
+              <th class="py-3 px-3 font-semibold text-slate-600 rounded-tr-lg">Home Sale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 px-4 font-medium text-slate-800">Cash Purchase</td>
+              <td class="py-3 px-3 text-red-600">$15K&ndash;$30K</td>
+              <td class="py-3 px-3 text-green-600">$0</td>
+              <td class="py-3 px-3">You</td>
+              <td class="py-3 px-3 text-green-600">+3&ndash;10% value</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 px-4 font-medium text-slate-800">Solar Loan</td>
+              <td class="py-3 px-3 text-green-600">$0</td>
+              <td class="py-3 px-3 text-slate-700">$100&ndash;$250</td>
+              <td class="py-3 px-3">You</td>
+              <td class="py-3 px-3 text-green-600">+3&ndash;10% value</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 px-4 font-medium text-slate-800">PPA</td>
+              <td class="py-3 px-3 text-green-600">$0</td>
+              <td class="py-3 px-3 text-slate-700">Variable</td>
+              <td class="py-3 px-3 text-amber-600">Company</td>
+              <td class="py-3 px-3 text-red-600">Complicates</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-medium text-slate-800">Lease</td>
+              <td class="py-3 px-3 text-green-600">$0</td>
+              <td class="py-3 px-3 text-slate-700">$68&ndash;$150</td>
+              <td class="py-3 px-3 text-amber-600">Company</td>
+              <td class="py-3 px-3 text-red-600">Complicates</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section: NJ Incentives -->
+    <section class="mb-14">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">NJ Incentives (2026)</h2>
+      <p class="text-sm text-slate-500 mb-5">State incentives remain strong despite federal ITC elimination.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm check-card">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-semibold text-slate-800">SREC-II (SuSI Program)</h3>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700">Active</span>
+          </div>
+          <div class="text-2xl font-bold text-green-600 mb-1">$85/MWh</div>
+          <p class="text-xs text-slate-500">Fixed rate for 15 years. ~$8,000 lifetime value for a typical 8kW system. Drops to $76.50 after March 13, 2026.</p>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm check-card">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-semibold text-slate-800">Property Tax Exemption</h3>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700">Permanent</span>
+          </div>
+          <div class="text-2xl font-bold text-green-600 mb-1">100%</div>
+          <p class="text-xs text-slate-500">Solar system value fully excluded from property tax assessment. In Bergen County (high taxes), this saves thousands over the system life.</p>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm check-card">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-semibold text-slate-800">Sales Tax Exemption</h3>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700">Permanent</span>
+          </div>
+          <div class="text-2xl font-bold text-green-600 mb-1">6.625%</div>
+          <p class="text-xs text-slate-500">No NJ sales tax on solar equipment or installation. Saves ~$1,650 on a $25,000 system.</p>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm check-card">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-semibold text-slate-800">Net Metering (PSE&G)</h3>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Until changed</span>
+          </div>
+          <div class="text-2xl font-bold text-green-600 mb-1">1:1</div>
+          <p class="text-xs text-slate-500">Full retail rate credit for excess energy. Annual true-up; excess at year-end paid at wholesale rate. Grid fee ~$8&ndash;12/mo remains.</p>
+        </div>
+      </div>
+
+      <!-- Incentive Value Chart -->
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm chart-wrap">
+        <h3 class="text-sm font-semibold text-slate-500 mb-3">Estimated Incentive Value (8kW system, 25-year life)</h3>
+        <div style="height: 220px; position: relative;">
+          <canvas id="chart-incentives"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Provider Evaluations -->
+    <section class="mb-14 print-break">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Provider Evaluations</h2>
+      <p class="text-sm text-slate-500 mb-5">Three providers evaluated for Bergen County installations.</p>
+
+      <!-- Trinity Solar -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm mb-4 print-avoid">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Trinity Solar</h3>
+            <p class="text-xs text-slate-500">Wall Township, NJ &mdash; Est. 1994 (30+ years)</p>
+          </div>
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-amber-100 text-amber-700">Caution</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">BBB</div>
+            <div class="text-base font-bold text-slate-800">A+</div>
+            <div class="text-[10px] text-slate-400">211 complaints/3yr</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">Yelp</div>
+            <div class="text-base font-bold text-red-600">1.6/5</div>
+            <div class="text-[10px] text-slate-400">136 reviews</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">SolarReviews</div>
+            <div class="text-base font-bold text-amber-600">3.2/5</div>
+            <div class="text-[10px] text-slate-400">range 2.8&ndash;3.6</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">Distance</div>
+            <div class="text-base font-bold text-slate-800">~1 hr</div>
+            <div class="text-[10px] text-slate-400">Wall Twp</div>
+          </div>
+        </div>
+        <div class="text-sm text-slate-600 space-y-1">
+          <p><strong class="text-red-600">Concerns:</strong> High-pressure door-to-door sales, poor communication, installation delays, roof damage reports, financing partner bankruptcy.</p>
+          <p><strong class="text-green-600">Strengths:</strong> 30+ years in business, installation crews often praised, responds to BBB complaints.</p>
+          <p><strong>Contract:</strong> ~$68/mo, 25-year term, $10,500 buyout after 5 years (prorated).</p>
+        </div>
+      </div>
+
+      <!-- Infinity Energy -->
+      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm mb-4 print-avoid">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Infinity Energy</h3>
+            <p class="text-xs text-slate-500">Mahwah, NJ &mdash; BBB since 2022</p>
+          </div>
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-amber-100 text-amber-700">Verify First</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">Google</div>
+            <div class="text-base font-bold text-green-600">4.7/5</div>
+            <div class="text-[10px] text-slate-400">623 reviews</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">Birdeye</div>
+            <div class="text-base font-bold text-green-600">4.6/5</div>
+            <div class="text-[10px] text-slate-400">745 reviews</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">EnergySage</div>
+            <div class="text-base font-bold text-green-600">Elite+</div>
+            <div class="text-[10px] text-slate-400">Installer of Year</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">Distance</div>
+            <div class="text-base font-bold text-green-600">15 min</div>
+            <div class="text-[10px] text-slate-400">Mahwah</div>
+          </div>
+        </div>
+        <div class="text-sm text-slate-600 space-y-1">
+          <p><strong class="text-red-600">Critical:</strong> Late 2023 Reddit reports of potential closure/bankruptcy (160+ comment thread). Website still active Feb 2026, but financial stability must be verified.</p>
+          <p><strong class="text-green-600">Strengths:</strong> Excellent reviews across platforms, very local to Bergen County, EnergySage "Installer of the Year."</p>
+          <p><strong>Action:</strong> Ask directly about 2023 reports. Request proof of insurance, bonding, and financial references.</p>
+        </div>
+      </div>
+
+      <!-- Green Power Energy -->
+      <div class="bg-white rounded-xl border border-green-200 p-6 shadow-sm mb-6 print-avoid">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Green Power Energy</h3>
+            <p class="text-xs text-slate-500">Annandale, NJ &mdash; 15+ years</p>
+          </div>
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-green-100 text-green-700">Recommended</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">Google</div>
+            <div class="text-base font-bold text-green-600">4.7/5</div>
+            <div class="text-[10px] text-slate-400">530 reviews</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">SolarReviews</div>
+            <div class="text-base font-bold text-green-600">4.8/5</div>
+            <div class="text-[10px] text-slate-400">410 reviews</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">BBB</div>
+            <div class="text-base font-bold text-green-600">A+</div>
+            <div class="text-[10px] text-slate-400">since 2016</div>
+          </div>
+          <div class="text-center p-2 bg-slate-50 rounded-lg">
+            <div class="text-xs text-slate-500 mb-0.5">Distance</div>
+            <div class="text-base font-bold text-amber-600">~45 min</div>
+            <div class="text-[10px] text-slate-400">Annandale</div>
+          </div>
+        </div>
+        <div class="text-sm text-slate-600 space-y-1">
+          <p><strong class="text-green-600">Strengths:</strong> Strongest reputation of the three. Excellent reviews, long-established, financially stable, professional sales.</p>
+          <p><strong class="text-amber-600">Note:</strong> 45+ miles from Bergen County may affect service response times. Verify commitment to your area.</p>
+          <p><strong>Feedback:</strong> "Excellent professionals," "competitive pricing, great service," "best price, tremendous service."</p>
+        </div>
+      </div>
+
+      <!-- Provider Charts -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm chart-wrap">
+          <h3 class="text-sm font-semibold text-slate-500 mb-3">Review Scores Comparison</h3>
+          <div style="height: 260px; position: relative;">
+            <canvas id="chart-reviews"></canvas>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm chart-wrap">
+          <h3 class="text-sm font-semibold text-slate-500 mb-3">Provider Radar</h3>
+          <div style="height: 260px; position: relative;">
+            <canvas id="chart-radar"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Old House Considerations -->
+    <section class="mb-14 print-break">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Old House Considerations</h2>
+      <p class="text-sm text-slate-500 mb-5">Pre-1970 homes in Hawthorne/Ramsey need extra assessment.</p>
+
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-left">
+              <th class="py-3 px-4 font-semibold text-slate-600 rounded-tl-lg">Factor</th>
+              <th class="py-3 px-3 font-semibold text-slate-600">Threshold</th>
+              <th class="py-3 px-3 font-semibold text-slate-600 rounded-tr-lg">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 text-slate-800">Panel Weight</td><td class="py-2.5 px-3">3&ndash;4 lbs/sq ft</td><td class="py-2.5 px-3 text-slate-600">Most roofs handle 20+ lbs/sq ft</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 text-slate-800">Total System Weight</td><td class="py-2.5 px-3">600&ndash;2,400 lbs</td><td class="py-2.5 px-3 text-slate-600">Calculate for your array size</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 text-slate-800">Roof Age</td><td class="py-2.5 px-3">&gt;10&ndash;15 years</td><td class="py-2.5 px-3 text-red-600 font-medium">Replace before solar</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 text-slate-800">Pre-1970 Home</td><td class="py-2.5 px-3">Automatic</td><td class="py-2.5 px-3 text-red-600 font-medium">Structural engineer required</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 text-slate-800">Visible Sagging</td><td class="py-2.5 px-3">Any</td><td class="py-2.5 px-3 text-red-600 font-medium">Structural engineer required</td></tr>
+            <tr><td class="py-2.5 px-4 text-slate-800">Rafter/Truss Condition</td><td class="py-2.5 px-3">Must inspect</td><td class="py-2.5 px-3 text-slate-600">Check for rot, decay</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-amber-50 rounded-xl border border-amber-200 p-5 print-avoid">
+        <h3 class="text-sm font-semibold text-amber-800 mb-2">Key Rule</h3>
+        <p class="text-sm text-amber-700">If your roof needs replacement in the next 5&ndash;7 years, replace it <strong>before</strong> installing solar. Removing and reinstalling panels for a roof replacement costs $3,000&ndash;$8,000.</p>
+        <div class="grid grid-cols-3 gap-3 mt-4">
+          <div class="text-center">
+            <div class="text-sm font-bold text-amber-800">$8K&ndash;$15K</div>
+            <div class="text-xs text-amber-600">Roof replacement</div>
+          </div>
+          <div class="text-center">
+            <div class="text-sm font-bold text-amber-800">$2K&ndash;$15K</div>
+            <div class="text-xs text-amber-600">Structural reinforcement</div>
+          </div>
+          <div class="text-center">
+            <div class="text-sm font-bold text-amber-800">$5K&ndash;$15K</div>
+            <div class="text-xs text-amber-600">Ground mount premium</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Home Sale Impact -->
+    <section class="mb-14">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Home Sale Impact</h2>
+      <p class="text-sm text-slate-500 mb-5">Critically important given the 2026 regulatory environment.</p>
+
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-left">
+              <th class="py-3 px-4 font-semibold text-slate-600 rounded-tl-lg">Factor</th>
+              <th class="py-3 px-3 font-semibold text-green-600">Owned Solar</th>
+              <th class="py-3 px-3 font-semibold text-purple-600 rounded-tr-lg">Leased/PPA Solar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 font-medium text-slate-800">Home Value</td><td class="py-2.5 px-3 text-green-600">+3&ndash;10% ($9K&ndash;$15K+)</td><td class="py-2.5 px-3 text-red-600">No increase, possible hindrance</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 font-medium text-slate-800">Sale Complexity</td><td class="py-2.5 px-3 text-green-600">Simple transfer</td><td class="py-2.5 px-3 text-red-600">Buyer must qualify</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 font-medium text-slate-800">Buyer Perception</td><td class="py-2.5 px-3 text-green-600">Asset</td><td class="py-2.5 px-3 text-red-600">Liability</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4 font-medium text-slate-800">Deal Risk</td><td class="py-2.5 px-3 text-green-600">Low</td><td class="py-2.5 px-3 text-red-600">High (can kill deals)</td></tr>
+            <tr><td class="py-2.5 px-4 font-medium text-slate-800">Transfer Process</td><td class="py-2.5 px-3 text-green-600">Include in sale</td><td class="py-2.5 px-3 text-red-600">Requires lender approval + fees</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm chart-wrap">
+        <h3 class="text-sm font-semibold text-slate-500 mb-3">Home Sale Financial Impact</h3>
+        <div style="height: 220px; position: relative;">
+          <canvas id="chart-homesale"></canvas>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div class="bg-blue-50 rounded-xl border border-blue-200 p-5 print-avoid">
+          <h3 class="text-sm font-semibold text-blue-800 mb-2">Selling within 5&ndash;7 years?</h3>
+          <ul class="text-sm text-blue-700 space-y-1 list-disc list-inside">
+            <li>Weigh ITC savings vs. sale complications</li>
+            <li>Negotiate strong buyout terms (prorated, clear pricing)</li>
+            <li>Get buyout schedule in writing before signing</li>
+          </ul>
+        </div>
+        <div class="bg-blue-50 rounded-xl border border-blue-200 p-5 print-avoid">
+          <h3 class="text-sm font-semibold text-blue-800 mb-2">Staying 10+ years?</h3>
+          <ul class="text-sm text-blue-700 space-y-1 list-disc list-inside">
+            <li>PPA may make sense for credit capture</li>
+            <li>25-year contract less concerning if staying</li>
+            <li>Cash/loan still better long-term if you have capital</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Decision Rubric -->
+    <section class="mb-14 print-break">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Decision Rubric</h2>
+      <p class="text-sm text-slate-500 mb-5">Weighted scoring matrix &mdash; rate each provider 1&ndash;5 on each factor.</p>
+
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-left">
+              <th class="py-3 px-4 font-semibold text-slate-600 rounded-tl-lg">Factor</th>
+              <th class="py-3 px-3 font-semibold text-slate-600 text-center">Weight</th>
+              <th class="py-3 px-3 font-semibold text-slate-600 text-center">Score (1&ndash;5)</th>
+              <th class="py-3 px-3 font-semibold text-slate-600 text-center rounded-tr-lg">Weighted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4">Financial Terms</td><td class="py-2.5 px-3 text-center font-medium">20%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4">Company Stability</td><td class="py-2.5 px-3 text-center font-medium">15%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4">Customer Reviews</td><td class="py-2.5 px-3 text-center font-medium">15%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4">Equipment Quality</td><td class="py-2.5 px-3 text-center font-medium">15%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4">Warranty Coverage</td><td class="py-2.5 px-3 text-center font-medium">10%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4">Local Service</td><td class="py-2.5 px-3 text-center font-medium">10%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+            <tr class="border-b border-slate-100"><td class="py-2.5 px-4">Sales Professionalism</td><td class="py-2.5 px-3 text-center font-medium">10%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+            <tr><td class="py-2.5 px-4">Flexibility (buyout, transfer)</td><td class="py-2.5 px-3 text-center font-medium">5%</td><td class="py-2.5 px-3 text-center text-slate-400">___</td><td class="py-2.5 px-3 text-center text-slate-400">___</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm chart-wrap">
+        <h3 class="text-sm font-semibold text-slate-500 mb-3">Decision Factor Weights</h3>
+        <div style="height: 260px; position: relative;">
+          <canvas id="chart-decision"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Red Flags -->
+    <section class="mb-14">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Red Flags Checklist</h2>
+      <p class="text-sm text-slate-500 mb-5">Warning signs to watch for during the sales process.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">"Sign today" pressure tactics</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Unusually low prices (too good to be true)</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Vague or verbal-only warranty promises</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Company primarily door-to-door sales</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Can't provide local references</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Avoids questions about financial stability</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Subcontracts installation with no oversight</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Escalator rates buried in contract fine print</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">Unclear buyout or transfer terms</span>
+        </div>
+        <div class="flex items-start gap-3 bg-red-50 rounded-lg p-3 border border-red-100 print-avoid">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-sm text-red-800">No physical local office</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Questions for Meetings -->
+    <section class="mb-14 print-break">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Questions for Provider Meetings</h2>
+      <p class="text-sm text-slate-500 mb-5">Organized by category. Ask every provider all of these.</p>
+
+      <div class="space-y-4">
+        <!-- Financial -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm print-avoid">
+          <h3 class="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-xs font-bold">$</span>
+            Financial Questions
+          </h3>
+          <ol class="text-sm text-slate-700 space-y-2 list-decimal list-inside">
+            <li>What is the total cost over 25 years including all escalators?</li>
+            <li>What are my exact monthly payments for years 1, 5, 10, 15, 20, 25?</li>
+            <li>What is the complete buyout schedule (every year)?</li>
+            <li>What happens if I sell my home before the contract ends?</li>
+            <li>What financing partners do you use? (Check their stability)</li>
+          </ol>
+        </div>
+
+        <!-- Technical -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm print-avoid">
+          <h3 class="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">T</span>
+            Technical Questions
+          </h3>
+          <ol class="text-sm text-slate-700 space-y-2 list-decimal list-inside">
+            <li>What panel brand and model will be installed?</li>
+            <li>String inverter or microinverters? Why?</li>
+            <li>What is the guaranteed production (kWh/year)?</li>
+            <li>Who does the actual installation? (In-house or subcontractors?)</li>
+            <li>What happens if production is below guarantee?</li>
+          </ol>
+        </div>
+
+        <!-- Service -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm print-avoid">
+          <h3 class="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">S</span>
+            Service Questions
+          </h3>
+          <ol class="text-sm text-slate-700 space-y-2 list-decimal list-inside">
+            <li>What's your average permit-to-power timeline?</li>
+            <li>What is your service response time for issues?</li>
+            <li>Who do I call if there's a problem in 10 years?</li>
+            <li>What happens to my warranty if your company is sold or closes?</li>
+            <li>Can I speak to 3 customers in my area?</li>
+          </ol>
+        </div>
+
+        <!-- Company Stability -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm print-avoid">
+          <h3 class="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold">C</span>
+            Company Stability Questions
+          </h3>
+          <ol class="text-sm text-slate-700 space-y-2 list-decimal list-inside">
+            <li>How long have you been in business?</li>
+            <li>What is your annual installation volume?</li>
+            <li>Have you had any financial difficulties or ownership changes?</li>
+            <li>Are you the installing company or a sales company?</li>
+            <li>Can you provide bank or financial references?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Recommendations -->
+    <section class="mb-14">
+      <h2 class="text-xl font-bold text-slate-900 mb-1">Recommendations</h2>
+      <p class="text-sm text-slate-500 mb-5">Summary guidance based on all research.</p>
+
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-left">
+              <th class="py-3 px-4 font-semibold text-slate-600 rounded-tl-lg">Provider</th>
+              <th class="py-3 px-3 font-semibold text-slate-600">Recommendation</th>
+              <th class="py-3 px-3 font-semibold text-slate-600 rounded-tr-lg">Confidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 px-4 font-medium">Trinity Solar</td>
+              <td class="py-3 px-3 text-amber-600">Proceed with caution; extensive written docs</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">Medium</span></td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 px-4 font-medium">Infinity Energy</td>
+              <td class="py-3 px-3 text-amber-600">Verify financial stability first</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">Medium</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-medium">Green Power Energy</td>
+              <td class="py-3 px-3 text-green-600">Worth getting quote; strong reputation</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">High</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-slate-100 rounded-xl p-5">
+        <h3 class="text-sm font-semibold text-slate-600 mb-2">Also Consider</h3>
+        <p class="text-sm text-slate-600">Get additional quotes from SUNation Energy, Lumina Solar, or Public Service Solar. Use <strong>EnergySage.com</strong> as a neutral marketplace to compare multiple bids.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-8 border-t border-slate-200 text-center">
+      <p class="text-xs text-slate-400">Report compiled February 10, 2026</p>
+      <p class="text-xs text-slate-400 mt-1">Sources: BBB.org, Google Reviews, SolarReviews, EnergySage, Yelp, Solar.com, NJDEP, EIA, DSIRE, NJ BPU</p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Chart defaults
+    Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = '#64748b';
+
+    // 1. Incentive Value Breakdown
+    new Chart(document.getElementById('chart-incentives'), {
+      type: 'bar',
+      data: {
+        labels: ['SREC-II (15yr)', 'Property Tax\nExemption', 'Sales Tax\nExemption', 'Net Metering\n(est. annual)'],
+        datasets: [{
+          label: 'Estimated Value ($)',
+          data: [8000, 4500, 1650, 800],
+          backgroundColor: ['#16a34a', '#22c55e', '#4ade80', '#86efac'],
+          borderRadius: 6,
+          barThickness: 36
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => '$' + ctx.raw.toLocaleString(),
+              title: lines => lines[0].label.replace('\n', ' ')
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { callback: v => '$' + (v / 1000) + 'K' },
+            grid: { color: '#f1f5f9' }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    // 2. Review Scores Comparison
+    new Chart(document.getElementById('chart-reviews'), {
+      type: 'bar',
+      data: {
+        labels: ['Trinity Solar', 'Infinity Energy', 'Green Power'],
+        datasets: [
+          {
+            label: 'Google',
+            data: [null, 4.7, 4.7],
+            backgroundColor: '#4285f4',
+            borderRadius: 4,
+            barPercentage: 0.7
+          },
+          {
+            label: 'Yelp',
+            data: [1.6, 3.6, null],
+            backgroundColor: '#d32323',
+            borderRadius: 4,
+            barPercentage: 0.7
+          },
+          {
+            label: 'SolarReviews',
+            data: [3.2, 3.4, 4.8],
+            backgroundColor: '#f59e0b',
+            borderRadius: 4,
+            barPercentage: 0.7
+          },
+          {
+            label: 'BBB',
+            data: [3.63, null, null],
+            backgroundColor: '#6366f1',
+            borderRadius: 4,
+            barPercentage: 0.7
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10 } } }
+        },
+        scales: {
+          y: {
+            min: 0, max: 5,
+            ticks: { stepSize: 1 },
+            grid: { color: '#f1f5f9' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // 3. Provider Radar
+    new Chart(document.getElementById('chart-radar'), {
+      type: 'radar',
+      data: {
+        labels: ['Stability', 'Reviews', 'Proximity', 'Experience', 'Sales'],
+        datasets: [
+          {
+            label: 'Trinity',
+            data: [3, 2, 2, 5, 1],
+            borderColor: '#ef4444',
+            backgroundColor: 'rgba(239,68,68,0.1)',
+            borderWidth: 2,
+            pointRadius: 3
+          },
+          {
+            label: 'Infinity',
+            data: [2, 4.5, 5, 3, 4],
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.1)',
+            borderWidth: 2,
+            pointRadius: 3
+          },
+          {
+            label: 'Green Power',
+            data: [5, 5, 2, 4, 4],
+            borderColor: '#22c55e',
+            backgroundColor: 'rgba(34,197,94,0.1)',
+            borderWidth: 2,
+            pointRadius: 3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            min: 0, max: 5,
+            ticks: { stepSize: 1, font: { size: 9 }, backdropColor: 'transparent' },
+            grid: { color: '#e2e8f0' },
+            angleLines: { color: '#e2e8f0' },
+            pointLabels: { font: { size: 10, weight: '500' } }
+          }
+        },
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10 } } }
+        }
+      }
+    });
+
+    // 4. Home Sale Impact
+    new Chart(document.getElementById('chart-homesale'), {
+      type: 'bar',
+      data: {
+        labels: ['Owned (Cash/Loan)', 'Leased/PPA', 'No Solar'],
+        datasets: [
+          {
+            label: 'Home Value Impact',
+            data: [12000, 0, 0],
+            backgroundColor: '#22c55e',
+            borderRadius: 6,
+            barPercentage: 0.5
+          },
+          {
+            label: 'Buyout / Complication Cost',
+            data: [0, -10500, 0],
+            backgroundColor: '#ef4444',
+            borderRadius: 6,
+            barPercentage: 0.5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10 } } },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const v = ctx.raw;
+                const sign = v >= 0 ? '+' : '';
+                return ctx.dataset.label + ': ' + sign + '$' + Math.abs(v).toLocaleString();
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            ticks: {
+              callback: v => {
+                const sign = v >= 0 ? '+' : '-';
+                return sign + '$' + Math.abs(v / 1000) + 'K';
+              }
+            },
+            grid: { color: '#f1f5f9' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // 5. Decision Factor Weights (doughnut)
+    new Chart(document.getElementById('chart-decision'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Financial Terms', 'Company Stability', 'Customer Reviews', 'Equipment Quality', 'Warranty', 'Local Service', 'Sales Professionalism', 'Flexibility'],
+        datasets: [{
+          data: [20, 15, 15, 15, 10, 10, 10, 5],
+          backgroundColor: [
+            '#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6',
+            '#ec4899', '#14b8a6', '#f97316', '#94a3b8'
+          ],
+          borderWidth: 0,
+          hoverOffset: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '55%',
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              boxWidth: 12,
+              padding: 8,
+              font: { size: 11 },
+              generateLabels: chart => {
+                const data = chart.data;
+                return data.labels.map((label, i) => ({
+                  text: label + ' (' + data.datasets[0].data[i] + '%)',
+                  fillStyle: data.datasets[0].backgroundColor[i],
+                  index: i,
+                  hidden: false
+                }));
+              }
+            }
+          },
+          tooltip: {
+            callbacks: { label: ctx => ctx.label + ': ' + ctx.raw + '%' }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
