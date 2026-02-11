@@ -7,15 +7,15 @@ export const PROVIDERS = [
     tier: 1,
     tierLabel: 'Recommended',
     location: 'Annandale, NJ (~45mi)',
-    google: { rating: 4.7, count: 530 },
-    founded: 2010,
+    google: { rating: 4.9, count: 150 },
+    founded: 2009,
     highlights: [
-      'SolarReviews 4.8/5 (410 reviews)',
+      'SolarReviews 4.96/5 (90 reviews)',
       'BBB A+ since 2016',
-      '15+ years in business',
+      '16+ years in business (est. 2009)',
       'Professional sales, no pressure'
     ],
-    panels: 'Various premium brands',
+    panels: 'Panasonic, Qcells, SunPower',
     inverters: 'Enphase, SolarEdge',
     warranty: '25yr panel, strong workmanship',
     financing: ['Cash', 'Loan', 'PPA', 'Lease'],
@@ -29,18 +29,18 @@ export const PROVIDERS = [
     tierLabel: 'Consider',
     location: 'Mahwah, NJ (~15min)',
     google: { rating: 4.7, count: 623 },
-    founded: 2015,
+    founded: 2009,
     highlights: [
       'EnergySage "Installer of the Year" Elite+',
       'Birdeye 4.6/5 (745 reviews)',
-      'Closest to Bergen County',
-      'Excellent review scores across platforms'
+      '15,000+ projects completed',
+      'Closest to Bergen County'
     ],
-    panels: 'Various',
+    panels: 'Various premium brands',
     inverters: 'Enphase, SolarEdge',
     warranty: '25yr panel, workmanship varies',
     financing: ['Cash', 'Loan', 'PPA', 'Lease'],
-    concerns: ['Late 2023 Reddit reports of potential closure/bankruptcy', 'Verify financial stability before signing', 'BBB accredited only since 2022'],
+    concerns: ['Late 2023 Reddit closure reports (may conflate CA company)', 'Verify financial stability before signing', 'BBB accredited only since 2022'],
     website: 'https://thenewutility.com'
   },
   {
@@ -49,19 +49,19 @@ export const PROVIDERS = [
     tier: 2,
     tierLabel: 'Consider',
     location: 'Wall Township, NJ (~65mi)',
-    google: { rating: 3.63, count: 167 },
+    google: { rating: 4.1, count: 1050 },
     founded: 1994,
     highlights: [
       'Largest NJ installer — 30+ years',
       'BBB A+ (responds to complaints)',
-      'Installation crews often praised',
+      'Birdeye 4.1/5 (1,050 reviews)',
       'Strong PPA/lease offerings'
     ],
-    panels: 'REC, Canadian Solar',
+    panels: 'Qcells',
     inverters: 'Enphase IQ8',
-    warranty: '25yr performance, 10yr workmanship',
+    warranty: '25yr performance, 5yr workmanship',
     financing: ['PPA', 'Lease', 'Loan', 'Cash'],
-    concerns: ['Yelp 1.6/5 (136 reviews)', 'Aggressive door-to-door sales', '211 BBB complaints in 3 years', 'Financing partner bankruptcy concerns', 'Roof damage reports'],
+    concerns: ['Yelp 1.6/5 (135 reviews)', 'Aggressive door-to-door sales', '161 BBB complaints in 3 years', 'Only 5-year workmanship warranty', 'Financing partner bankruptcy concerns'],
     website: 'https://www.trinitysolar.com'
   },
   {
@@ -69,20 +69,20 @@ export const PROVIDERS = [
     name: 'Public Service Solar',
     tier: 1,
     tierLabel: 'Recommended',
-    location: 'Burlington, NJ (~70mi)',
+    location: 'Burlington, NJ (~90mi)',
     google: { rating: 4.7, count: 176 },
-    founded: 2015,
+    founded: 2018,
     highlights: [
       'EnergySage Elite+ installer',
       'In-house crews (no subcontractors)',
       'Lifetime workmanship warranty',
       'Transparent pricing, no high-pressure sales'
     ],
-    panels: 'REC Alpha, Q Cells',
-    inverters: 'Enphase IQ8+',
+    panels: 'Panasonic, Maxeon',
+    inverters: 'Enphase IQ8HC',
     warranty: '25yr panel, lifetime workmanship',
     financing: ['Loan', 'Cash'],
-    concerns: ['Farther from Bergen County', 'Smaller company — capacity limits'],
+    concerns: ['~90 miles from Bergen County', 'Smaller company — capacity limits', 'Founded 2018 — shorter track record'],
     website: 'https://www.publicservicesolar.com'
   },
   {
@@ -92,19 +92,19 @@ export const PROVIDERS = [
     tierLabel: 'Consider',
     location: 'Madison, NJ (~25mi)',
     google: { rating: 4.5, count: 85 },
-    founded: 2009,
+    founded: 2015,
     highlights: [
       'NABCEP-certified installers',
-      'SunPower Maxeon panels available',
+      'BBB A+ (not accredited)',
       'Closest to Bergen County',
       'Strong local reputation'
     ],
-    panels: 'SunPower Maxeon, REC',
+    panels: 'SunPower Maxeon, REC (note: SunPower bankrupt Aug 2024)',
     inverters: 'Enphase, SolarEdge',
     warranty: '25yr panel, 10yr workmanship',
     financing: ['Loan', 'Cash', 'Lease'],
-    concerns: ['Smaller team', 'Premium pricing with SunPower panels'],
-    website: 'https://www.greenhousesolar.com'
+    concerns: ['SunPower (key panel supplier) filed bankruptcy Aug 2024', 'Smaller team', 'BBB A+ but not accredited'],
+    website: 'https://greenhouse.solar'
   },
   {
     id: 'teslaSolar',
@@ -115,16 +115,16 @@ export const PROVIDERS = [
     google: { rating: 3.5, count: 2000 },
     founded: 2016,
     highlights: [
-      'Lowest $/W in market (~$2.00/W)',
-      'Powerwall battery integration',
+      'Low $/W (~$2.27/W average)',
+      'Powerwall 3 battery (13.5kWh)',
       'Strong brand & financial stability',
-      'Sleek panel aesthetics'
+      'New TSP-415/420 panels'
     ],
-    panels: 'Tesla T-Series (rebranded)',
+    panels: 'Tesla TSP-415/420',
     inverters: 'Tesla (string)',
     warranty: '25yr panel, 10yr system',
     financing: ['Cash', 'Loan'],
-    concerns: ['6-12 month install timelines', 'Poor customer service ratings', 'No local presence', 'String inverters (not micro)'],
+    concerns: ['SolarReviews 2.61/5 (800+ reviews)', '6-12 month install timelines', 'No local presence', 'String inverters (not micro)'],
     website: 'https://www.tesla.com/solarpanels'
   },
   {
@@ -142,11 +142,12 @@ export const PROVIDERS = [
     panels: 'Various',
     inverters: 'Various',
     warranty: '20yr PPA/lease',
-    financing: ['PPA', 'Lease'],
+    financing: ['PPA', 'Lease', 'Loan', 'Cash'],
     concerns: [
-      'Deceptive sales practices lawsuit',
-      '1-star dominant Google reviews',
-      'Terrible post-sale support',
+      'Financial distress (Altman Z-score -0.08)',
+      'CT Attorney General + MA lawsuits for deceptive practices',
+      'Sued 420+ of their own customers for unpaid bills',
+      'Yelp 1.9/5, BBB 1.04/5',
       'Aggressive door-to-door sales',
       'Difficult lease transfer on home sale'
     ],
@@ -168,10 +169,11 @@ export const PROVIDERS = [
     warranty: '25yr panel, limited workmanship',
     financing: ['PPA', 'Lease', 'Loan'],
     concerns: [
-      'Aggressive telemarketing spam',
+      '747 BBB complaints in 3 years',
+      '$30M TCPA telemarketing settlement',
+      'Trustpilot 1.6/5, ConsumerAffairs 2.2/5',
+      'Race discrimination lawsuits',
       'Misleading savings claims',
-      '2.66 Google rating (482 reviews)',
-      'BBB complaint volume',
       'High-pressure sales tactics'
     ],
     website: 'https://www.momentumsolar.com'
@@ -181,20 +183,20 @@ export const PROVIDERS = [
     name: 'Solar Me',
     tier: 2,
     tierLabel: 'Consider',
-    location: 'Paramus, NJ (~5mi)',
-    google: { rating: 4.8, count: 120 },
-    founded: 2010,
+    location: 'South Amboy, NJ (~39mi)',
+    google: { rating: 4.8, count: 263 },
+    founded: 2014,
     highlights: [
-      'Closest to Hawthorne — Bergen County based',
-      'High Google rating',
+      'Birdeye 4.8/5 (263 reviews)',
+      'Strong NJ focus',
       'Local knowledge of NJ incentives',
       'Responsive communication'
     ],
-    panels: 'REC, Canadian Solar, Silfab',
-    inverters: 'Enphase IQ8',
+    panels: 'QCell, Panasonic',
+    inverters: 'Enphase, SolarEdge',
     warranty: '25yr panel, 10yr workmanship',
     financing: ['Loan', 'Cash', 'PPA'],
-    concerns: ['Smaller operation', 'Less track record than larger installers'],
+    concerns: ['South Amboy (~39mi from Bergen County, not Paramus)', 'Smaller operation', 'Founded 2014 — shorter track record'],
     website: 'https://www.solarmeus.com'
   }
 ];
